@@ -1,16 +1,9 @@
 //page that displays listings in a chart that can be sorted
 import { use, useEffect, useState } from "react";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { ArrowRight } from "lucide-react";
-// import { Listing } from "@/types/listing";
-// import { ListingCard } from "@/components/listing-card";
-// import { fetchListings } from "@/api/listings";
 import { fetchListings, waitSeconds } from "api/listings";
 import { Listing } from "api/listing";
 
 export default function ListingsPage() {
-  //   const [listings, setListings] = useState<Listing[]>([]);
   const [listingData, setListingData] = useState<Listing[]>([]);
   const [status, setStatus] = useState("loading");
 
@@ -47,7 +40,6 @@ export default function ListingsPage() {
           </p>
           <div className="w-full flex flex-col justify-center items-center">
             {listingData.map((listing) => (
-              //   <ListingCard key={listing.id} listing={listing} />
               <p key={listing.eventName}>
                 {listing.eventName} - {listing.ticketNum}
               </p>
