@@ -2,10 +2,15 @@
 import { use, useEffect, useState } from "react";
 import { fetchListings, waitSeconds } from "api/listings";
 import { Listing } from "api/listing";
+import { UserNav } from "./user-nav";
+import { columns } from "./columns";
+import { DataTable } from "@/components/data-table";
+import { z } from "zod";
 
 export default function ListingsPage() {
   const [listingData, setListingData] = useState<Listing[]>([]);
   const [status, setStatus] = useState("loading");
+  const [tasks, setTasks] = useState<Listing[]>([]);
 
   useEffect(() => {
     refreshListingData();
@@ -13,11 +18,78 @@ export default function ListingsPage() {
 
   async function refreshListingData() {
     setStatus("fetching");
-    const res: Listing[] = await fetchListings(false);
+    const res: Listing[] = await fetchListings(true);
     console.log("listings: ", res);
     setListingData(res);
+    setTasks(res);
+
     setStatus("loaded");
   }
+
+  async function getTasks() {
+    const data = [
+      {
+        id: "TASK-8782",
+        title:
+          "You can't compress the program without quantifying the open-source SSD pixel!",
+      },
+      {
+        id: "TASK-7878",
+        title:
+          "Try to calculate the EXE feed, maybe it will index the multi-byte pixel!",
+      },
+      {
+        id: "TASK-7839",
+        title: "We need to bypass the neural TCP card!",
+      },
+      {
+        id: "TASK-5562",
+        title:
+          "The SAS interface is down, bypass the open-source pixel so we can back up the PNG bandwidth!",
+      },
+      {
+        id: "TASK-8686",
+        title:
+          "I'll parse the wireless SSL protocol, that should driver the API panel!",
+      },
+    ];
+
+    // const tasks = JSON.parse(data.toString());
+    console.log("tasks: ", data);
+
+    // return z.array(taskSchema).parse(tasks);
+  }
+
+  return (
+    <>
+      <div className="md:hidden"></div>
+
+      <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
+        <button
+          className=" w-max h-max px-5 py-3 bg-myrtle_green text-white rounded-md p-2 hover:bg-onyx-600"
+          onClick={async () => {
+            await refreshListingData();
+          }}
+        >
+          Refresh Listings
+        </button>
+        <div className="flex items-center justify-between space-y-2">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight">
+              Welcome to the Ticket Tracker!
+            </h2>
+            <p className="text-muted-foreground">
+              Here&apos;s are the listings for events in the next 6 months!
+            </p>
+          </div>
+          {/* <div className="flex items-center space-x-2">
+            <UserNav />
+          </div> */}
+        </div>
+        <DataTable data={tasks} columns={columns} />
+      </div>
+    </>
+  );
 
   return (
     <div className="flex items-center justify-center p-10 w-screen h-screen">

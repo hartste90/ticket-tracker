@@ -13,15 +13,20 @@ export interface Listing {
   eventDate: Date;
   price: number;
   obo: boolean;
+  id: string;
+  title: string;
 }
 
 export function createRandomListing(): Listing {
+  const name = faker.person.fullName() + " Concert";
   return {
-    eventName: faker.person.fullName() + " Concert",
+    eventName: name,
     ticketNum: faker.number.int({ min: 1, max: 5 }),
     eventDate: faker.date.soon({ days: 150 }),
     price: parseInt(faker.commerce.price({ min: 0, max: 1000 })),
     obo: faker.datatype.boolean(),
+    id: faker.string.uuid().substring(0, 6),
+    title: name,
   };
 }
 
