@@ -1,5 +1,5 @@
 //page that displays listings in a chart that can be sorted
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 // import { Button } from "@/components/ui/button";
 // import { Input } from "@/components/ui/input";
 // import { ArrowRight } from "lucide-react";
@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 // import { ListingCard } from "@/components/listing-card";
 // import { fetchListings } from "@/api/listings";
 import { fetchListings, waitSeconds } from "api/listings";
-import Listing from "api/listing";
+import { Listing } from "api/listing";
 
 export default function ListingsPage() {
   //   const [listings, setListings] = useState<Listing[]>([]);
@@ -20,7 +20,7 @@ export default function ListingsPage() {
 
   async function refreshListingData() {
     setStatus("fetching");
-    const res: Listing[] = await fetchListings();
+    const res: Listing[] = await fetchListings(false);
     console.log("listings: ", res);
     setListingData(res);
     setStatus("loaded");
@@ -31,11 +31,11 @@ export default function ListingsPage() {
       {status}
       {/* {status === "fetching" && <p>Fetching...</p>} */}
       {status === "error" && <p>Error fetching listings</p>}
-      <div className=" bg-myrtle_green-500 rounded-2xl w-full max-w-2xl p-10">
+      <div className=" bg-onyx-500 rounded-2xl w-full max-w-2xl p-10">
         <h1 className="text-center text-xl mb-5 text-white">Listings</h1>
         <div className="w-full flex flex-col justify-center items-center">
           <button
-            className="bg-onyx-500 text-white rounded-md p-2 hover:bg-onyx-600"
+            className=" bg-myrtle_green text-white rounded-md p-2 hover:bg-onyx-600"
             onClick={async () => {
               await refreshListingData();
             }}
