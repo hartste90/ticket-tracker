@@ -8,34 +8,22 @@
 import { faker } from "@faker-js/faker";
 
 export interface Listing {
+  listingId: string;
   eventName: string;
-  ticketNum: number;
+  ticketCount: number;
   eventDate: Date;
   price: number;
   obo: boolean;
-  id: string;
-  title: string;
 }
 
 export function createRandomListing(): Listing {
   const name = faker.person.fullName() + " Concert";
   return {
+    listingId: faker.string.uuid().substring(0, 8),
     eventName: name,
-    ticketNum: faker.number.int({ min: 1, max: 5 }),
+    ticketCount: faker.number.int({ min: 1, max: 5 }),
     eventDate: faker.date.soon({ days: 150 }),
     price: parseInt(faker.commerce.price({ min: 0, max: 1000 })),
     obo: faker.datatype.boolean(),
-    id: faker.string.uuid().substring(0, 6),
-    title: name,
   };
-}
-
-export class Listing {
-  constructor(eventName: string, ticketNum: number) {
-    this.eventName = eventName;
-    this.ticketNum = ticketNum;
-    this.eventDate = new Date();
-    this.price = 0;
-    this.obo = false;
-  }
 }

@@ -1,11 +1,12 @@
 //page that displays listings in a chart that can be sorted
 import { use, useEffect, useState } from "react";
-import { fetchListings, waitSeconds } from "api/listings";
-import { Listing } from "api/listing";
+import { fetchListings, waitSeconds, addListing } from "api/listings";
+import { Listing, createRandomListing } from "api/listing";
 import { UserNav } from "./user-nav";
 import { columns } from "./columns";
 import { DataTable } from "@/components/data-table";
 import { z } from "zod";
+import { BugPlay } from "lucide-react";
 
 export default function ListingsPage() {
   const [listingData, setListingData] = useState<Listing[]>([]);
@@ -18,12 +19,20 @@ export default function ListingsPage() {
 
   async function refreshListingData() {
     setStatus("fetching");
-    const res: Listing[] = await fetchListings(true);
+    const res: Listing[] = await fetchListings(false);
     console.log("listings: ", res);
     setListingData(res);
     setTasks(res);
-
     setStatus("loaded");
+  }
+
+  async function addRandomListing() {
+    setStatus("adding");
+    const newListing: Listing = createRandomListing();
+    console.log("new listing: ", newListing);
+    const res = await addListing(newListing);
+    console.log("add listing res: ", res);
+    await refreshListingData();
   }
 
   async function getTasks() {
@@ -65,21 +74,32 @@ export default function ListingsPage() {
       <div className="md:hidden"></div>
 
       <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-        <button
-          className=" w-max h-max px-5 py-3 bg-myrtle_green text-white rounded-md p-2 hover:bg-onyx-600"
-          onClick={async () => {
-            await refreshListingData();
-          }}
-        >
-          Refresh Listings
-        </button>
+        <div className="">
+          <button
+            className=" w-max h-max px-5 py-3 mr-5 bg-myrtle_green text-white rounded-md p-2 hover:bg-onyx-600"
+            onClick={async () => {
+              await refreshListingData();
+            }}
+          >
+            Refresh Listings
+          </button>
+          <button
+            className=" w-max h-max px-5 py-3 bg-myrtle_green text-white rounded-md p-2 hover:bg-onyx-600"
+            onClick={async () => {
+              await addRandomListing();
+            }}
+          >
+            <BugPlay className="mr-2 h-4 w-4 inline-block" />
+            Add Listing
+          </button>
+        </div>
         <div className="flex items-center justify-between space-y-2">
           <div>
             <h2 className="text-2xl font-bold tracking-tight">
               Welcome to the Ticket Tracker!
             </h2>
             <p className="text-muted-foreground">
-              Here&apos;s are the listings for events in the next 6 months!
+              Here&apos;s the listings for events in the next 6 months
             </p>
           </div>
           {/* <div className="flex items-center space-x-2">
@@ -113,7 +133,7 @@ export default function ListingsPage() {
           <div className="w-full flex flex-col justify-center items-center">
             {listingData.map((listing) => (
               <p key={listing.eventName}>
-                {listing.eventName} - {listing.ticketNum}
+                {listing.eventName} - {listing.ticketCount}
               </p>
             ))}
           </div>
