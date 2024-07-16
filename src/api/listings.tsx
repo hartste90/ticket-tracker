@@ -2,42 +2,6 @@
 
 import { Listing, createRandomListing } from "./listing";
 
-//export a function called fetchListings that fetches a list of listings from the server
-// export const fetchListings = async () => {
-// let listings: Listing[] = [new Listing("Miss Thing", 2)];
-// fetch("https://k4i6ycglle.execute-api.us-west-1.amazonaws.com/listings", {
-//   method: "GET",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-// })
-//   .then((response) => {
-//     if (response.status === 200) {
-//       console.log("Request successful");
-//     } else {
-//       console.log("Request failed");
-//     }
-//     if (response.status === 400) throw new Error("Malformed request");
-//     if (response.status === 401)
-//       throw new Error("Request rejected: Unauthorized");
-//     return response.json();
-//   })
-//   .then((data) => {
-//     console.log("data is: ", data["Items"]);
-//     return data["Items"];
-//   })
-//   .catch((error) => {
-//     console.error("Error getting :", error);
-//   });
-
-//async function to wait 2 seconds and return listings
-// export async function fetchListings() {
-//   return new Promise((resolve) => {
-//     setTimeout(() => {
-//       resolve([new Listing("Miss Thinggggs", 2)]);
-//     }, 2000);
-//   });
-
 export async function fetchListings(useFakeData?: boolean): Promise<Listing[]> {
   if (useFakeData) {
     console.log("Using fake data");
