@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, BugPlay, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
@@ -94,6 +94,18 @@ export default function WelcomePage({ setStatusCallback }: Props) {
                 <Loader2 className="black animate-spin" size={24} />
               ) : (
                 <ArrowRight className="black" size={24} />
+              )}
+            </Button>
+            <Button
+              className="bg-old_gold-500 hover:bg-old_gold-600"
+              onClick={() => onSubmit("pinkponyclub")}
+              type="submit"
+              disabled={status === "fetching"}
+            >
+              {status === "fetching" ? (
+                <Loader2 className="black animate-spin" size={24} />
+              ) : (
+                <BugPlay className="black" size={24} />
               )}
             </Button>
           </div>
