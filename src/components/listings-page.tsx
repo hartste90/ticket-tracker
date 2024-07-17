@@ -107,6 +107,7 @@ export default function ListingsPage() {
           </div> */}
         </div>
         <DataTable data={tasks} columns={columns} />
+        <div id="footer" className="min-h-32" />
       </div>
     </>
   );

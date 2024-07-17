@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 // import { labels, priorities, statuses } from "../data/data";
 import { Task } from "@/data/schema";
 import { DataTableColumnHeader } from "@/components/data-table-column-header";
+import { date } from "zod";
 // import { DataTableRowActions } from "./data-table-row-actions";
 
 export const columns: ColumnDef<Task>[] = [
@@ -69,7 +70,7 @@ export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: "price",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Price" />
+      <DataTableColumnHeader column={column} title="Price per ticket" />
     ),
     cell: ({ row }) => {
       return (
@@ -99,6 +100,7 @@ export const columns: ColumnDef<Task>[] = [
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     },
+    enableSorting: false,
   },
   {
     accessorKey: "eventDate",
@@ -114,6 +116,17 @@ export const columns: ColumnDef<Task>[] = [
           </span>
         </div>
       );
+    },
+    sortingFn: (rowA, rowB, columnId) => {
+      const dateA = new Date(rowA.getValue("eventDate"));
+      const dateB = new Date(rowB.getValue("eventDate"));
+      const diff = dateA.getTime() - dateB.getTime();
+      if (diff === 0) {
+        return 0;
+      } else if (diff > 0) {
+        return 1;
+      }
+      return -1;
     },
   },
   //   {
@@ -143,8 +156,22 @@ export const columns: ColumnDef<Task>[] = [
   //       return value.includes(row.getValue(id));
   //     },
   //   },
-  //   {
-  //     id: "actions",
-  //     cell: ({ row }) => <DataTableRowActions row={row} />,
-  //   },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      return (
+        <div>
+          <button className=" shadow-md w-max h-max mr-1 bg-emerald-500 text-white rounded-md p-2 hover:bg-emerald-600 transition-all">
+            <span className=" inline-block" />
+            Make Offer
+          </button>
+          <button className=" shadow-md w-max h-max border border-rose-500 text-rose-500 rounded-md p-2 hover:bg-rose-100 transition-all">
+            <span className=" inline-block" />
+            Mark Sold
+          </button>
+        </div>
+      );
+      // <DataTableRowActions row={row} />,
+    },
+  },
 ];
