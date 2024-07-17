@@ -2,42 +2,6 @@
 
 import { Listing, createRandomListing } from "./listing";
 
-//export a function called fetchListings that fetches a list of listings from the server
-// export const fetchListings = async () => {
-// let listings: Listing[] = [new Listing("Miss Thing", 2)];
-// fetch("https://k4i6ycglle.execute-api.us-west-1.amazonaws.com/listings", {
-//   method: "GET",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-// })
-//   .then((response) => {
-//     if (response.status === 200) {
-//       console.log("Request successful");
-//     } else {
-//       console.log("Request failed");
-//     }
-//     if (response.status === 400) throw new Error("Malformed request");
-//     if (response.status === 401)
-//       throw new Error("Request rejected: Unauthorized");
-//     return response.json();
-//   })
-//   .then((data) => {
-//     console.log("data is: ", data["Items"]);
-//     return data["Items"];
-//   })
-//   .catch((error) => {
-//     console.error("Error getting :", error);
-//   });
-
-//async function to wait 2 seconds and return listings
-// export async function fetchListings() {
-//   return new Promise((resolve) => {
-//     setTimeout(() => {
-//       resolve([new Listing("Miss Thinggggs", 2)]);
-//     }, 2000);
-//   });
-
 export async function fetchListings(useFakeData?: boolean): Promise<Listing[]> {
   if (useFakeData) {
     console.log("Using fake data");
@@ -62,10 +26,8 @@ export async function fetchListings(useFakeData?: boolean): Promise<Listing[]> {
             resolve(res.Items);
           } else if (response.status === 400) {
             reject("Malformed request");
-            throw new Error("Malformed request");
           } else if (response.status === 401) {
             reject("Request rejected: Unauthorized");
-            throw new Error("Request rejected: Unauthorized");
           }
         })
         .catch((error) => {
@@ -76,12 +38,53 @@ export async function fetchListings(useFakeData?: boolean): Promise<Listing[]> {
   }
 }
 
+export async function addListing(listing: Listing) {
+  console.log("Adding new listing: ", toPostData(listing));
+  return new Promise((resolve, reject) => {
+    fetch("https://k4i6ycglle.execute-api.us-west-1.amazonaws.com/listings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(toPostData(listing)),
+    })
+      .then(async (response) => {
+        let res = await response.json();
+        if (response.status === 200) {
+          resolve({ success: true, message: "Success" });
+        } else if (response.status === 400) {
+          reject({ success: false, message: "Malformed request" });
+        } else if (response.status === 401) {
+          reject({ success: false, message: "Request rejected: Unauthorized" });
+        }
+      })
+      .catch((error) => {
+        console.error("Error adding listing:", error);
+        reject({ success: false, message: "Unknown error: " + error });
+      });
+  });
+}
+
 function getFakeListings(numListings: number): Listing[] {
   let listings: Listing[] = [];
   for (let i = 0; i < numListings; i++) {
     listings.push(createRandomListing());
   }
   return listings;
+}
+
+function toPostData(listing: Listing) {
+  return {
+    TableName: "ticketData",
+    Item: {
+      listingId: listing.listingId.toString(),
+      eventName: listing.eventName.toString(),
+      ticketCount: listing.ticketCount.toString(),
+      eventDate: listing.eventDate.toString(),
+      price: listing.price.toString(),
+      obo: listing.obo.toString(),
+    },
+  };
 }
 
 export async function waitSeconds(seconds: number): Promise<void> {
