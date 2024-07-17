@@ -3,10 +3,12 @@ import { use, useEffect, useState } from "react";
 import { fetchListings, waitSeconds, addListing } from "api/listings";
 import { Listing, createRandomListing } from "api/listing";
 import { UserNav } from "./user-nav";
-import { columns } from "./columns";
+import { columns } from "@/components/columns";
 import { DataTable } from "@/components/data-table";
-import { z } from "zod";
 import { BugPlay, CircleDollarSign, RefreshCcw } from "lucide-react";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import CreateListingDialog from "./create-listing-dialog";
 
 export default function ListingsPage() {
   const [listingData, setListingData] = useState<Listing[]>([]);
@@ -33,44 +35,6 @@ export default function ListingsPage() {
     const res = await addListing(newListing);
     console.log("add listing res: ", res);
     await refreshListingData();
-  }
-
-  async function getTasks() {
-    const data = [
-      {
-        id: "TASK-8782",
-        title:
-          "You can't compress the program without quantifying the open-source SSD pixel!",
-      },
-      {
-        id: "TASK-7878",
-        title:
-          "Try to calculate the EXE feed, maybe it will index the multi-byte pixel!",
-      },
-      {
-        id: "TASK-7839",
-        title: "We need to bypass the neural TCP card!",
-      },
-      {
-        id: "TASK-5562",
-        title:
-          "The SAS interface is down, bypass the open-source pixel so we can back up the PNG bandwidth!",
-      },
-      {
-        id: "TASK-8686",
-        title:
-          "I'll parse the wireless SSL protocol, that should driver the API panel!",
-      },
-    ];
-
-    // const tasks = JSON.parse(data.toString());
-    console.log("tasks: ", data);
-
-    // return z.array(taskSchema).parse(tasks);
-  }
-
-  function openCreateListingDialog() {
-    throw new Error("Function not implemented.");
   }
 
   return (
@@ -110,15 +74,15 @@ export default function ListingsPage() {
             <BugPlay className="mr-2 h-4 w-4 inline-block" />
             Add Listing
           </button>
-          <button
-            className=" w-max h-max px-5 py-3 bg-blue-500 text-white rounded-sm hover:bg-blue-600"
-            onClick={async () => {
-              openCreateListingDialog();
-            }}
-          >
-            <CircleDollarSign className="mr-2 h-5 w-5 inline-block" />
-            Sell My Ticket(s)
-          </button>
+          <Dialog>
+            <DialogTrigger>
+              <div className=" w-max h-max px-5 py-3 bg-blue-500 text-white rounded-sm hover:bg-blue-600">
+                <CircleDollarSign className="mr-2 h-5 w-5 inline-block" />
+                Sell My Ticket(s)
+              </div>
+            </DialogTrigger>
+            <CreateListingDialog />
+          </Dialog>
         </div>
         <DataTable data={tasks} columns={columns} />
         <div id="footer" className="min-h-32" />
