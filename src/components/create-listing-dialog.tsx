@@ -21,11 +21,17 @@ import { Button } from "@/components/ui/button";
 import { DatePickerForm } from "@/components/date-picker-form";
 import { SubmitHandler } from "react-hook-form";
 import { z } from "zod";
+import { Switch } from "@/components/ui/switch";
 
-interface CreateListingDialogProps {}
+interface CreateListingDialogProps {
+  setCreateListingModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
 const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
   const form = ProfileForm();
+  const [open, setOpen] = React.useState(false);
 
   return (
     <DialogContent>
@@ -34,9 +40,13 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
         <DialogDescription></DialogDescription>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmitCreateListingForm, (errors) => {
-              console.log("errors: ", errors);
-            })}
+            onSubmit={(event) => {
+              wait().then(() => props.setCreateListingModalOpen(false));
+              event.preventDefault();
+            }}
+            // onSubmit={form.handleSubmit(onSubmitCreateListingForm, (errors) => {
+            //   console.log("errors: ", errors);
+            // })}
             className="space-y-8"
           >
             <FormField
@@ -79,6 +89,51 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
                 </FormItem>
               )}
             />
+            <div className="">
+              <FormField
+                control={form.control}
+                name="price"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                    <div className="space-y-0.5">
+                      <FormLabel>Price</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="0"
+                          type="number"
+                          min={1}
+                          step={1}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        How much would you like to offer each ticket for?
+                      </FormDescription>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="obo"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                    <div className="space-y-0.5">
+                      <FormLabel>OBO?</FormLabel>
+                      <FormDescription>
+                        Are you willing to accept lower offers?
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <Button type="submit">Submit</Button>
           </form>

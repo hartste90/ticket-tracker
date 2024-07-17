@@ -14,6 +14,7 @@ export default function ListingsPage() {
   const [listingData, setListingData] = useState<Listing[]>([]);
   const [status, setStatus] = useState("loading");
   const [tasks, setTasks] = useState<Listing[]>([]);
+  const [createListingModalOpen, setCreateListingModalOpen] = useState(false);
 
   useEffect(() => {
     refreshListingData();
@@ -74,14 +75,19 @@ export default function ListingsPage() {
             <BugPlay className="mr-2 h-4 w-4 inline-block" />
             Add Listing
           </button>
-          <Dialog>
+          <Dialog
+            open={createListingModalOpen}
+            onOpenChange={setCreateListingModalOpen}
+          >
             <DialogTrigger>
               <div className=" w-max h-max px-5 py-3 bg-blue-500 text-white rounded-sm hover:bg-blue-600">
                 <CircleDollarSign className="mr-2 h-5 w-5 inline-block" />
                 Sell My Ticket(s)
               </div>
             </DialogTrigger>
-            <CreateListingDialog />
+            <CreateListingDialog
+              setCreateListingModalOpen={setCreateListingModalOpen}
+            />
           </Dialog>
         </div>
         <DataTable data={tasks} columns={columns} />
