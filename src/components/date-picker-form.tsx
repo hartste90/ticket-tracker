@@ -24,6 +24,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import React from "react";
+import { SelectSingleEventHandler } from "react-day-picker";
 
 const DateFormSchema = z.object({
   eventDate: z.date({
@@ -32,7 +33,7 @@ const DateFormSchema = z.object({
 });
 
 interface DatePickerFormProps {
-  onValueChanged: (value: Date) => void;
+  onValueChanged: (date: Date) => void;
 }
 
 export const DatePickerForm: React.FC<DatePickerFormProps> = (props) => {
@@ -41,6 +42,16 @@ export const DatePickerForm: React.FC<DatePickerFormProps> = (props) => {
   const form = useForm<z.infer<typeof DateFormSchema>>({
     resolver: zodResolver(DateFormSchema),
   });
+
+  function onDaySelected(
+    day: any,
+    selectedDay: any,
+    activeModifiers: any,
+    e: any
+  ) {
+    setDate(day);
+    props.onValueChanged(day);
+  }
 
   let today = new Date();
   today.setDate(today.getDate() - 1);
@@ -63,7 +74,7 @@ export const DatePickerForm: React.FC<DatePickerFormProps> = (props) => {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={onDaySelected}
           initialFocus
         />
       </PopoverContent>

@@ -13,9 +13,7 @@ export const taskSchema = z.object({
 
 export const listingFormSchema = z.object({
   eventName: z.string().min(2, "Event name must be at least 2 characters."),
-  eventDate: z.date({
-    required_error: "An upcoming date is required.",
-  }),
+  eventDate: z.date(),
   // ticketCount: z.number().min(1, "Ticket count must be at least 1."),
   ticketCount: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Expected number, received a string",
