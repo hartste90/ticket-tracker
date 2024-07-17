@@ -158,14 +158,17 @@ export const columns: ColumnDef<Task>[] = [
   //   },
   {
     id: "actions",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Actions" />
+    ),
     cell: ({ row }) => {
       return (
         <div>
-          <button className=" shadow-md w-max h-max mr-1 bg-emerald-500 text-white rounded-md p-2 hover:bg-emerald-600 transition-all">
+          <button className=" w-max h-max mr-2 bg-emerald-500 text-white rounded-md p-2 hover:bg-emerald-600 transition-all">
             <span className=" inline-block" />
             Make Offer
           </button>
-          <button className=" shadow-md w-max h-max border border-rose-500 text-rose-500 rounded-md p-2 hover:bg-rose-100 transition-all">
+          <button className="  w-max h-max underline text-rose-400 rounded-md p-2 hover:bg-rose-100 transition-all">
             <span className=" inline-block" />
             Mark Sold
           </button>

@@ -6,7 +6,7 @@ import { UserNav } from "./user-nav";
 import { columns } from "./columns";
 import { DataTable } from "@/components/data-table";
 import { z } from "zod";
-import { BugPlay } from "lucide-react";
+import { BugPlay, CircleDollarSign, RefreshCcw } from "lucide-react";
 
 export default function ListingsPage() {
   const [listingData, setListingData] = useState<Listing[]>([]);
@@ -71,28 +71,9 @@ export default function ListingsPage() {
 
   return (
     <>
-      <div className="md:hidden"></div>
+      <div className="md:hidden "></div>
 
-      <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-        <div className="">
-          <button
-            className=" w-max h-max px-5 py-3 mr-5 bg-myrtle_green text-white rounded-md p-2 hover:bg-onyx-600"
-            onClick={async () => {
-              await refreshListingData();
-            }}
-          >
-            Refresh Listings
-          </button>
-          <button
-            className=" w-max h-max px-5 py-3 bg-myrtle_green text-white rounded-md p-2 hover:bg-onyx-600"
-            onClick={async () => {
-              await addRandomListing();
-            }}
-          >
-            <BugPlay className="mr-2 h-4 w-4 inline-block" />
-            Add Listing
-          </button>
-        </div>
+      <div className="hidden h-full flex-1 flex-col space-y-6 p-8 md:flex ">
         <div className="flex items-center justify-between space-y-2">
           <div>
             <h2 className="text-2xl font-bold tracking-tight">
@@ -106,6 +87,35 @@ export default function ListingsPage() {
             <UserNav />
           </div> */}
         </div>
+        <div className="my-1">
+          <button
+            className=" w-max h-max px-5 py-3 mr-5 bg-blue-500 text-white rounded-sm hover:bg-blue-600"
+            onClick={async () => {
+              await refreshListingData();
+            }}
+          >
+            <RefreshCcw className="mr-2 h-4 w-4 inline-block" />
+            Refresh
+          </button>
+          <button
+            className=" w-max h-max px-5 py-3 mr-5 bg-red-500 text-white rounded-sm hover:bg-blue-600"
+            onClick={async () => {
+              await addRandomListing();
+            }}
+          >
+            <BugPlay className="mr-2 h-4 w-4 inline-block" />
+            Add Listing
+          </button>
+          <button
+            className=" w-max h-max px-5 py-3 bg-blue-500 text-white rounded-sm hover:bg-blue-600"
+            onClick={async () => {
+              await addRandomListing();
+            }}
+          >
+            <CircleDollarSign className="mr-2 h-5 w-5 inline-block" />
+            Sell My Ticket(s)
+          </button>
+        </div>
         <DataTable data={tasks} columns={columns} />
         <div id="footer" className="min-h-32" />
       </div>
@@ -113,7 +123,7 @@ export default function ListingsPage() {
   );
 
   return (
-    <div className="flex items-center justify-center p-10 w-screen h-screen">
+    <div className="flex items-center justify-center p-10 w-screen h-screen ">
       {status}
       {/* {status === "fetching" && <p>Fetching...</p>} */}
       {status === "error" && <p>Error fetching listings</p>}
