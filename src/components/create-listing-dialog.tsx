@@ -22,6 +22,7 @@ import { DatePickerForm } from "@/components/date-picker-form";
 import { SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { Switch } from "@/components/ui/switch";
+import { Separator } from "@/components/ui/separator";
 
 interface CreateListingDialogProps {
   setCreateListingModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -40,6 +41,12 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
         <DialogDescription></DialogDescription>
         <Form {...form}>
           <form
+            onKeyDownCapture={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+                console.log("key down", event);
+              }
+            }}
             onSubmit={(event) => {
               wait().then(() => props.setCreateListingModalOpen(false));
               event.preventDefault();
@@ -47,8 +54,9 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
             // onSubmit={form.handleSubmit(onSubmitCreateListingForm, (errors) => {
             //   console.log("errors: ", errors);
             // })}
-            className="space-y-8"
+            className="space-y-2"
           >
+            <FormDescription>Required Fields</FormDescription>
             <FormField
               control={form.control}
               name="eventName"
@@ -68,7 +76,6 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
             <DatePickerForm
               onValueChanged={(date) => {
                 form.setValue("eventDate", date);
-                console.log("changed date: ", date);
               }}
             />
             <FormField
@@ -79,8 +86,12 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
                   <FormLabel>
                     How many tickets are you trying to sell?
                   </FormLabel>
-                  <FormControl>
-                    <Input placeholder="0" type="number" {...field} />
+                  <FormControl className="w-50">
+                    <Input
+                      placeholder="Number of tickets"
+                      type="number"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     {/* How many tickets are you trying to sell? */}
@@ -97,7 +108,7 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
                   <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
                     <div className="space-y-0.5">
                       <FormLabel>Price</FormLabel>
-                      <FormControl>
+                      <FormControl className="w-20">
                         <Input
                           placeholder="0"
                           type="number"
@@ -134,6 +145,24 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
                 )}
               />
             </div>
+            <Separator />
+            <FormDescription>Optional Fields</FormDescription>
+            <FormField
+              control={form.control}
+              name="tier"
+              render={({ field }) => (
+                <FormItem>
+                  {/* <FormLabel>Event Name</FormLabel> */}
+                  <FormControl>
+                    <Input
+                      placeholder="Tier (optional) [VIP, GA, Early Bird, etc..]"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
             <Button type="submit">Submit</Button>
           </form>
