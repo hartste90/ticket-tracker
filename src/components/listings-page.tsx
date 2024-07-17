@@ -69,6 +69,10 @@ export default function ListingsPage() {
     // return z.array(taskSchema).parse(tasks);
   }
 
+  function openCreateListingDialog() {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <>
       <div className="md:hidden "></div>
@@ -109,7 +113,7 @@ export default function ListingsPage() {
           <button
             className=" w-max h-max px-5 py-3 bg-blue-500 text-white rounded-sm hover:bg-blue-600"
             onClick={async () => {
-              await addRandomListing();
+              openCreateListingDialog();
             }}
           >
             <CircleDollarSign className="mr-2 h-5 w-5 inline-block" />
