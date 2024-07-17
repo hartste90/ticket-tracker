@@ -1,8 +1,5 @@
 import { z } from "zod";
-import { Listing } from "@/api/listing";
 
-// We're keeping a simple non-relational schema here.
-// IRL, you will have a schema for your data models.
 export const taskSchema = z.object({
   listingId: z.string(),
   eventName: z.string(),
@@ -10,9 +7,23 @@ export const taskSchema = z.object({
   eventDate: z.date(),
   price: z.number(),
   ticketCount: z.number(),
-  //   status: z.string(),
-  //   label: z.string(),
-  //   priority: z.string(),
+});
+
+export const listingFormSchema = z.object({
+  eventName: z.string(),
+  eventDate: z.date(),
+  ticketCount: z.number(),
+  allOrNothing: z.boolean(),
+  obo: z.boolean(),
+  price: z.number(),
+  tier: z.string().optional(),
+  city: z.string().optional(),
+  posterName: z.string(),
+  posterNumber: z.string(),
+  notes: z
+    .string()
+    .max(250, "Please keep notes under 250 characters.")
+    .optional(),
 });
 
 export type Task = z.infer<typeof taskSchema>;
