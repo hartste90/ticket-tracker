@@ -41,7 +41,6 @@ export default function ListingsPage() {
   return (
     <>
       <div className="md:hidden "></div>
-
       <div className="hidden h-full flex-1 flex-col space-y-6 p-8 md:flex ">
         <div className="flex items-center justify-between space-y-2">
           <div>
@@ -94,36 +93,5 @@ export default function ListingsPage() {
         <div id="footer" className="min-h-32" />
       </div>
     </>
-  );
-
-  return (
-    <div className="flex items-center justify-center p-10 w-screen h-screen ">
-      {status}
-      {/* {status === "fetching" && <p>Fetching...</p>} */}
-      {status === "error" && <p>Error fetching listings</p>}
-      <div className=" bg-onyx-500 rounded-2xl w-full max-w-2xl p-10">
-        <h1 className="text-center text-xl mb-5 text-white">Listings</h1>
-        <div className="w-full flex flex-col justify-center items-center">
-          <button
-            className=" bg-myrtle_green text-white rounded-md p-2 hover:bg-onyx-600"
-            onClick={async () => {
-              await refreshListingData();
-            }}
-          >
-            Refresh Listings
-          </button>
-          <p className="mb-2 text-old_gold">
-            <b>Here are the current listings:</b>
-          </p>
-          <div className="w-full flex flex-col justify-center items-center">
-            {listingData.map((listing) => (
-              <p key={listing.eventName}>
-                {listing.eventName} - {listing.ticketCount}
-              </p>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
   );
 }

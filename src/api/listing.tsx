@@ -23,7 +23,7 @@ export function createRandomListing(): Listing {
     eventName: name,
     ticketCount: faker.number.int({ min: 1, max: 5 }),
     eventDate: faker.date.soon({ days: 150 }),
-    price: parseInt(faker.commerce.price({ min: 0, max: 1000 })),
+    price: parseInt(faker.commerce.price({ min: 0, max: 120 })),
     obo: faker.datatype.boolean(),
   };
 }
