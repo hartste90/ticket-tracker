@@ -29,28 +29,35 @@ import { createListingFromForm } from "@/api/listing";
 
 interface CreateListingDialogProps {
   setCreateListingModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  refreshListingData: () => void;
 }
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
-async function onSubmitCreateListingForm(values: any, callback: () => void) {
-  console.log("hey the form is submitted: ", values);
-  let listing = createListingFromForm(values);
-  const res = await addListing(listing)
-    .then(() => {
-      console.log("success posting listing");
-      callback();
-    })
-    .catch((error) => {
-      console.error("Error adding listing: ", error);
-    })
-    .finally(() => {
-      console.log("finally");
-    });
-}
-
 const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
   const form = ProfileForm();
+
+  function clearForm() {
+    form.reset();
+  }
+
+  async function onSubmitCreateListingForm(values: any, callback: () => void) {
+    console.log("hey the form is submitted: ", values);
+    let listing = createListingFromForm(values);
+    const res = await addListing(listing)
+      .then(() => {
+        console.log("success posting listing");
+        clearForm();
+        props.refreshListingData();
+        callback();
+      })
+      .catch((error) => {
+        console.error("Error adding listing: ", error);
+      })
+      .finally(() => {
+        console.log("finally");
+      });
+  }
 
   return (
     <DialogContent>
@@ -106,6 +113,8 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
                     <Input
                       placeholder="Number of tickets"
                       type="number"
+                      min={1}
+                      step={1}
                       {...field}
                     />
                   </FormControl>
@@ -130,7 +139,7 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
                             className=""
                             placeholder="$0"
                             type="number"
-                            min={1}
+                            min={0}
                             step={1}
                             {...field}
                           />
@@ -238,7 +247,7 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
                 <FormItem>
                   <FormControl>
                     <Textarea
-                      placeholder="Any additional information you'd like to share with potential buyers. (250 characters max)"
+                      placeholder="Any additional information you'd like to share with potential buyers. (optional) (250 characters max)"
                       className="resize-none"
                       maxLength={250}
                       {...field}
@@ -249,8 +258,16 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
               )}
             />
 
-            <Button className=" bg-blue-500" type="submit">
+            <Button className=" bg-blue-500 mr-2" type="submit">
               Create Listing
+            </Button>
+            <Button
+              variant={"link"}
+              className="text-slate-400"
+              onClick={clearForm}
+              type="button"
+            >
+              Clear
             </Button>
           </form>
         </Form>

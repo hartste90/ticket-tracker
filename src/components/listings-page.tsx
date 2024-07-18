@@ -86,6 +86,7 @@ export default function ListingsPage() {
             </DialogTrigger>
             <CreateListingDialog
               setCreateListingModalOpen={setCreateListingModalOpen}
+              refreshListingData={refreshListingData}
             />
           </Dialog>
         </div>
