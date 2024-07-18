@@ -52,14 +52,4 @@ export function ProfileForm() {
   return form;
 }
 
-// export function onSubmitCreateListingForm(
-//   values: z.infer<typeof listingFormSchema>
-// ) {
-//   console.log("hey the form is submitted: ", values);
-// }
-export function onSubmitCreateListingForm(values: any, callback: () => void) {
-  console.log("hey the form is submitted: ", values);
-  callback();
-}
-
 export type Task = z.infer<typeof taskSchema>;

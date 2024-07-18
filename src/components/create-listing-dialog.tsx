@@ -1,4 +1,4 @@
-import { ProfileForm, onSubmitCreateListingForm } from "@/data/schema";
+import { ProfileForm } from "@/data/schema";
 
 import React from "react";
 import {
@@ -24,12 +24,30 @@ import { z } from "zod";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import { addListing } from "@/api/listings";
+import { createListingFromForm } from "@/api/listing";
 
 interface CreateListingDialogProps {
   setCreateListingModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
+
+async function onSubmitCreateListingForm(values: any, callback: () => void) {
+  console.log("hey the form is submitted: ", values);
+  let listing = createListingFromForm(values);
+  const res = await addListing(listing)
+    .then(() => {
+      console.log("success posting listing");
+      callback();
+    })
+    .catch((error) => {
+      console.error("Error adding listing: ", error);
+    })
+    .finally(() => {
+      console.log("finally");
+    });
+}
 
 const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
   const form = ProfileForm();
@@ -55,16 +73,6 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
               },
               (errors) => console.log("errors: ", errors)
             )}
-            // onSubmit={onFormSubmit}
-            // , (errors) => {
-            //   console.log("errors: ", errors);
-            // });
-            // event.preventDefault();
-            //   wait().then(() => props.setCreateListingModalOpen(false));
-
-            // onSubmit={form.handleSubmit(onSubmitCreateListingForm, (errors) => {
-            //   console.log("errors: ", errors);
-            // })}
             className="space-y-2"
           >
             <FormDescription>Required Fields</FormDescription>

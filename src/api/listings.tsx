@@ -83,6 +83,12 @@ function toPostData(listing: Listing) {
       eventDate: listing.eventDate.toString(),
       price: listing.price.toString(),
       obo: listing.obo.toString(),
+      posterName: listing.posterName.toString(),
+      posterNumber: listing.posterNumber.toString(),
+      postDate: listing.postDate.toString(),
+      tier: listing.tier ? listing.tier.toString() : undefined,
+      city: listing.city ? listing.city.toString() : undefined,
+      notes: listing.notes ? listing.notes.toString() : undefined,
     },
   };
 }
