@@ -9,6 +9,11 @@ export const taskSchema = z.object({
   eventDate: z.date(),
   price: z.number(),
   ticketCount: z.number(),
+  posterName: z.string(),
+  posterNumber: z.string(),
+  tier: z.string().optional(),
+  city: z.string().optional(),
+  notes: z.string().optional(),
 });
 
 export const listingFormSchema = z.object({
@@ -26,7 +31,7 @@ export const listingFormSchema = z.object({
   tier: z.string().optional(),
   city: z.string().optional(),
   posterName: z.string(),
-  posterNumber: z.string(),
+  posterNumber: z.string().min(1),
   notes: z
     .string()
     .max(250, "Please keep notes under 250 characters.")

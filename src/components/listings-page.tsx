@@ -57,7 +57,7 @@ export default function ListingsPage() {
         </div>
         <div className="my-1">
           <button
-            className=" w-max h-max px-5 py-3 mr-5 bg-blue-500 text-white rounded-sm hover:bg-blue-600"
+            className=" w-max h-max px-5 py-3 mr-5 bg-blue-500 text-white text-sm rounded-sm hover:bg-blue-600"
             onClick={async () => {
               await refreshListingData();
             }}
@@ -65,21 +65,12 @@ export default function ListingsPage() {
             <RefreshCcw className="mr-2 h-4 w-4 inline-block" />
             Refresh
           </button>
-          <button
-            className=" w-max h-max px-5 py-3 mr-5 bg-red-500 text-white rounded-sm hover:bg-blue-600"
-            onClick={async () => {
-              await addRandomListing();
-            }}
-          >
-            <BugPlay className="mr-2 h-4 w-4 inline-block" />
-            Add Listing
-          </button>
           <Dialog
             open={createListingModalOpen}
             onOpenChange={setCreateListingModalOpen}
           >
             <DialogTrigger>
-              <div className=" w-max h-max px-5 py-3 bg-blue-500 text-white rounded-sm hover:bg-blue-600">
+              <div className="w-max h-max px-5 py-3 bg-blue-500 text-white text-sm rounded-sm hover:bg-blue-600">
                 <CircleDollarSign className="mr-2 h-5 w-5 inline-block" />
                 Sell My Ticket(s)
               </div>
@@ -89,6 +80,15 @@ export default function ListingsPage() {
               refreshListingData={refreshListingData}
             />
           </Dialog>
+          <button
+            className="w-max h-max px-5 py-3 ml-5 bg-red-500 text-white text-sm rounded-sm hover:bg-blue-600"
+            onClick={async () => {
+              await addRandomListing();
+            }}
+          >
+            <BugPlay className="mr-2 h-4 w-4 inline-block" />
+            Add Listing
+          </button>
         </div>
         <DataTable data={tasks} columns={columns} />
         <div id="footer" className="min-h-32" />

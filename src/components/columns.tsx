@@ -18,7 +18,9 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title="Listing ID" />
     ),
     cell: ({ row }) => (
-      <div className="w-[80px]">{row.getValue("listingId")}</div>
+      <div className="w-[80px] text-primary/30">
+        {row.getValue("listingId")}
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
