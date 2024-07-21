@@ -10,6 +10,11 @@ import { Task } from "@/data/schema";
 import { DataTableColumnHeader } from "@/components/data-table-column-header";
 import { date } from "zod";
 // import { DataTableRowActions } from "./data-table-row-actions";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -111,10 +116,36 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       return (
         <div>
-          <button className=" w-max h-max mr-2 bg-emerald-500 text-white rounded-md p-2 hover:bg-emerald-600 transition-all">
-            <span className=" inline-block" />
-            Make Offer
-          </button>
+          <Popover>
+            <PopoverTrigger>
+              <div className="w-max h-max mr-2 p-2 bg-emerald-500 text-white text-sm rounded-md hover:bg-emerald-600">
+                Make Offer
+              </div>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div className=" ">
+                <h1 className="text-lg">
+                  <b>{row.original.eventName}</b>
+                </h1>
+                <div className="text-slate-500">
+                  <h2>
+                    contact:
+                    {" " + row.original.posterName}
+                  </h2>
+                  <h2>
+                    via:
+                    {" " + row.original.posterNumber}
+                  </h2>
+                  {row.original.notes === undefined ? null : (
+                    <h2>
+                      notes:
+                      {" " + row.original.notes}
+                    </h2>
+                  )}
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
           <button className="  w-max h-max underline text-rose-400 rounded-md p-2 hover:bg-rose-100 transition-all">
             <span className=" inline-block" />
             Mark Sold
