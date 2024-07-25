@@ -100,15 +100,17 @@ export default function ListingsPage() {
                 listing={selectedListing}
               />
             </Dialog>
-            <button
-              className="w-max h-max px-5 py-3 ml-5 bg-red-500 text-white text-sm rounded-sm hover:bg-blue-600"
-              onClick={async () => {
-                await addRandomListing();
-              }}
-            >
-              <BugPlay className="mr-2 h-4 w-4 inline-block" />
-              Add Listing
-            </button>
+            {process.env.NODE_ENV == "development" && (
+              <button
+                className="w-max h-max px-5 py-3 ml-5 bg-red-500 text-white text-sm rounded-sm hover:bg-blue-600"
+                onClick={async () => {
+                  await addRandomListing();
+                }}
+              >
+                <BugPlay className="mr-2 h-4 w-4 inline-block" />
+                Add Listing
+              </button>
+            )}
           </>
         </div>
         <DataTable
