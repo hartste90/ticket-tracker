@@ -8,6 +8,7 @@ import { BugPlay, CircleDollarSign, RefreshCcw } from "lucide-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import CreateListingDialog from "@/components/create-listing-dialog";
 import RemoveListingDialog from "@/components/remove-listing-dialog";
+import NoMobileWarning from "./no-mobile-warning";
 
 export default function ListingsPage() {
   const [tasks, setTasks] = useState<Listing[]>([]);
@@ -40,6 +41,7 @@ export default function ListingsPage() {
 
   return (
     <>
+      <NoMobileWarning />
       <div className="md:hidden "></div>
       <div className="hidden h-full flex-1 flex-col space-y-6 p-8 md:flex ">
         <div className="flex items-center justify-between space-y-2">
