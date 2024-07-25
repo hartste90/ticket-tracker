@@ -10,8 +10,6 @@ import CreateListingDialog from "@/components/create-listing-dialog";
 import RemoveListingDialog from "@/components/remove-listing-dialog";
 
 export default function ListingsPage() {
-  const [listingData, setListingData] = useState<Listing[]>([]);
-  const [status, setStatus] = useState("loading");
   const [tasks, setTasks] = useState<Listing[]>([]);
   const [createListingModalOpen, setCreateListingModalOpen] = useState(false);
   const [removeListingModalOpen, setRemoveListingModalOpen] = useState(false);
@@ -22,16 +20,12 @@ export default function ListingsPage() {
   }, []);
 
   async function refreshListingData() {
-    setStatus("fetching");
     const res: Listing[] = await fetchListings(false);
     console.log("listings: ", res);
-    setListingData(res);
     setTasks(res);
-    setStatus("loaded");
   }
 
   async function addRandomListing() {
-    setStatus("adding");
     const newListing: Listing = createRandomListing();
     console.log("new listing: ", newListing);
     const res = await addListing(newListing);

@@ -1,4 +1,3 @@
-//template page component
 "use client";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -7,7 +6,6 @@ import { ArrowRight, BugPlay, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 
-//add props with a function called setStatusCallback
 type Props = {
   setStatusCallback: (status: string) => void;
 };
@@ -16,9 +14,7 @@ export default function WelcomePage({ setStatusCallback }: Props) {
   const [status, setStatus] = useState("initializing");
   const [input, setInput] = useState("");
   const { toast } = useToast();
-  const router = useRouter();
 
-  //fetch post from url
   const onSubmit = (input: string) => {
     setStatus("fetching");
     fetch(
@@ -45,11 +41,9 @@ export default function WelcomePage({ setStatusCallback }: Props) {
         if (response.status === 400) throw new Error("Malformed request");
         if (response.status === 401)
           throw new Error("Incorrect/outdated passphrase");
-        // console.log("response is: ", response);
         return response.json();
       })
       .then((data) => {
-        // console.log("data is: ", data);
         return data;
       })
       .catch((error) => {
@@ -65,7 +59,6 @@ export default function WelcomePage({ setStatusCallback }: Props) {
 
   return (
     <div className="flex items-center justify-center p-10 w-screen h-screen">
-      {/* {status === "fetching" && <p>Fetching...</p>} */}
       <div className=" bg-onyx-500 shadow-2xl rounded-2xl w-full max-w-2xl p-10">
         <h1 className="text-center text-xl mb-5 text-white">
           Welcome to Ticket Tracker
