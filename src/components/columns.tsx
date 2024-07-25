@@ -116,6 +116,19 @@ export const columns: ColumnDef<Task>[] = [
     },
   },
   {
+    accessorKey: "posterName",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Posted By" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex space-x-2">
+          <span>{row.getValue("posterName")}</span>
+        </div>
+      );
+    },
+  },
+  {
     id: "actions",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Actions" />
