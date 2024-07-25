@@ -50,7 +50,8 @@ export default function ListingsPage() {
               Welcome to the Ticket Tracker!
             </h2>
             <p className="text-muted-foreground">
-              Here&apos;s the listings for events in the next 6 months
+              Here&apos;s the available listings for events around San
+              Francisco.
             </p>
           </div>
         </div>
