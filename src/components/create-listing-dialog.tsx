@@ -249,12 +249,12 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
             />
             <FormField
               control={form.control}
-              name="city"
+              name="eventAddress"
               render={({ field }) => (
                 <FormItem>
                   {/* <FormLabel>Event Name</FormLabel> */}
                   <FormControl>
-                    <Input placeholder="City (optional)" {...field} />
+                    <Input placeholder="Event Address (optional)" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

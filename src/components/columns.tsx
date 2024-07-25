@@ -153,16 +153,28 @@ export const columns: ColumnDef<Task>[] = [
                 </h1>
                 <div className="text-slate-500">
                   <h2>
-                    contact:
+                    <span className="underline">contact</span>:
                     {" " + row.original.posterName}
                   </h2>
                   <h2>
-                    via:
+                    <span className="underline">via</span>:
                     {" " + row.original.posterNumber}
                   </h2>
+                  {row.original.tier === undefined ? null : (
+                    <h2>
+                      <span className="underline">tier</span>:
+                      {" " + row.original.tier}
+                    </h2>
+                  )}
+                  {row.original.eventAddress === undefined ? null : (
+                    <h2>
+                      <span className="underline">location</span>:
+                      {" " + row.original.eventAddress}
+                    </h2>
+                  )}
                   {row.original.notes === undefined ? null : (
                     <h2>
-                      notes:
+                      <span className="underline">notes</span>:
                       {" " + row.original.notes}
                     </h2>
                   )}

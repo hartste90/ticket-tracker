@@ -11,7 +11,7 @@ export interface Listing {
   posterNumber: string;
   postDate: Date;
   tier?: string;
-  city?: string;
+  eventAddress?: string;
   notes?: string;
 }
 
@@ -28,7 +28,7 @@ export function createRandomListing(): Listing {
       faker.person.firstName() + " " + faker.string.alpha().toUpperCase() + ".",
     posterNumber: faker.phone.number(),
     postDate: new Date(),
-    city: faker.location.city(),
+    eventAddress: faker.location.streetAddress(),
     tier: faker.helpers.arrayElement(["", "VIP", "GA"]),
   };
 }
@@ -44,7 +44,8 @@ export function createListingFromForm(formValues: any): Listing {
     posterName: formValues.posterName,
     posterNumber: formValues.posterNumber,
     postDate: new Date(),
-    city: formValues.city?.length > 0 ? formValues.city : undefined,
+    eventAddress:
+      formValues.eventAddress?.length > 0 ? formValues.eventAddress : undefined,
     tier: formValues.tier?.length > 0 ? formValues.tier : undefined,
     notes: formValues.notes?.length > 0 ? formValues.notes : undefined,
   };

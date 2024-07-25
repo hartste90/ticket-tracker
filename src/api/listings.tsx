@@ -115,7 +115,9 @@ function toPostData(listing: Listing) {
       posterNumber: listing.posterNumber.toString(),
       postDate: listing.postDate.toString(),
       tier: listing.tier ? listing.tier.toString() : undefined,
-      city: listing.city ? listing.city.toString() : undefined,
+      eventAddress: listing.eventAddress
+        ? listing.eventAddress.toString()
+        : undefined,
       notes: listing.notes ? listing.notes.toString() : undefined,
     },
   };

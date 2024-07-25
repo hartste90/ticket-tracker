@@ -12,7 +12,7 @@ export const taskSchema = z.object({
   posterName: z.string(),
   posterNumber: z.string(),
   tier: z.string().optional(),
-  city: z.string().optional(),
+  eventAddress: z.string().optional(),
   notes: z.string().optional(),
 });
 
@@ -29,7 +29,7 @@ export const listingFormSchema = z.object({
     message: "Expected number, received a string",
   }),
   tier: z.string().optional(),
-  city: z.string().optional(),
+  eventAddress: z.string().optional(),
   posterName: z.string(),
   posterNumber: z.string().min(1),
   notes: z
@@ -48,7 +48,7 @@ export function ProfileForm() {
       obo: false,
       price: "",
       tier: "",
-      city: "",
+      eventAddress: "",
       posterName: "",
       posterNumber: "",
       notes: "",
