@@ -1,6 +1,6 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, RowData } from "@tanstack/react-table";
 
 import { Badge } from "@/components/ui/badge";
 // import { Checkbox } from "@/registry/new-york/ui/checkbox";
@@ -15,6 +15,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Listing } from "@/api/listing";
+
+declare module "@tanstack/react-table" {
+  interface TableMeta<TData extends RowData> {
+    removeListing: (listingId: Listing) => void;
+  }
+}
 
 export const columns: ColumnDef<Task>[] = [
   {
@@ -96,7 +103,7 @@ export const columns: ColumnDef<Task>[] = [
         </div>
       );
     },
-    sortingFn: (rowA, rowB, columnId) => {
+    sortingFn: (rowA, rowB) => {
       const dateA = new Date(rowA.getValue("eventDate"));
       const dateB = new Date(rowB.getValue("eventDate"));
       const diff = dateA.getTime() - dateB.getTime();
@@ -113,7 +120,11 @@ export const columns: ColumnDef<Task>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Actions" />
     ),
-    cell: ({ row }) => {
+    cell: ({ getValue, row, column, table }) => {
+      const removeListing = () => {
+        table.options.meta?.removeListing(row.original as Listing);
+      };
+
       return (
         <div>
           <Popover>
@@ -146,13 +157,16 @@ export const columns: ColumnDef<Task>[] = [
               </div>
             </PopoverContent>
           </Popover>
-          <button className="  w-max h-max underline text-rose-400 rounded-md p-2 hover:bg-rose-100 transition-all">
-            <span className=" inline-block" />
-            Mark Sold
-          </button>
+          <div className={"inline flex-row gap-x-2 whitespace-nowrap"}>
+            <button
+              className="  w-max h-max underline text-rose-400 rounded-md p-2 hover:bg-rose-100 transition-all"
+              onClick={removeListing}
+            >
+              Mark Sold
+            </button>
+          </div>
         </div>
       );
-      // <DataTableRowActions row={row} />,
     },
   },
 ];
