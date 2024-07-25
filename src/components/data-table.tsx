@@ -79,8 +79,8 @@ export function DataTable<TData, TValue>({
     <div className="space-y-4">
       {/* <DataTableToolbar table={table} /> */}
       <div className="rounded-md border shadow-lg">
-        <Table>
-          <TableHeader className=" bg-gradient-to-r from-purple-400 via-emerald-500 to-yellow-300">
+        <Table className="">
+          <TableHeader className=" bg-gradient-to-r bg-fixed from-purple-400 via-emerald-500 to-yellow-300 ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
