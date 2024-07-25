@@ -221,7 +221,7 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
                       >
                         Google Voice
                       </a>{" "}
-                      number if you'd like to keep your personal number private
+                      number if you want to keep your personal number private
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
