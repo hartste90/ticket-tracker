@@ -96,18 +96,20 @@ export default function WelcomePage({ setStatusCallback }: Props) {
                 <ArrowRight className="black" size={24} />
               )}
             </Button>
-            <Button
-              className="bg-old_gold-500 hover:bg-old_gold-600"
-              onClick={() => onSubmit("pinkponyclub")}
-              type="submit"
-              disabled={status === "fetching"}
-            >
-              {status === "fetching" ? (
-                <Loader2 className="black animate-spin" size={24} />
-              ) : (
-                <BugPlay className="black" size={24} />
-              )}
-            </Button>
+            {process.env.NODE_ENV === "development" && (
+              <Button
+                className="bg-old_gold-500 hover:bg-old_gold-600"
+                onClick={() => onSubmit("pinkponyclub")}
+                type="submit"
+                disabled={status === "fetching"}
+              >
+                {status === "fetching" ? (
+                  <Loader2 className="black animate-spin" size={24} />
+                ) : (
+                  <BugPlay className="black" size={24} />
+                )}
+              </Button>
+            )}
           </div>
         </div>
       </div>

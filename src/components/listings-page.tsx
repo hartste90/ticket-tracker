@@ -83,31 +83,35 @@ export default function ListingsPage() {
               refreshListingData={refreshListingData}
             />
           </Dialog>
-          <Dialog
-            open={removeListingModalOpen}
-            onOpenChange={setRemoveListingModalOpen}
-          >
-            <DialogTrigger>
-              <div className="w-max h-max px-5 py-3 ml-5 bg-red-500 text-white text-sm rounded-sm hover:bg-red-600">
-                <BugPlay className="mr-2 h-5 w-5 inline-block" />
-                Remove Listing
-              </div>
-            </DialogTrigger>
-            <RemoveListingDialog
-              setRemoveListingModalOpen={setRemoveListingModalOpen}
-              refreshListingData={refreshListingData}
-              listing={selectedListing}
-            />
-          </Dialog>
-          <button
-            className="w-max h-max px-5 py-3 ml-5 bg-red-500 text-white text-sm rounded-sm hover:bg-blue-600"
-            onClick={async () => {
-              await addRandomListing();
-            }}
-          >
-            <BugPlay className="mr-2 h-4 w-4 inline-block" />
-            Add Listing
-          </button>
+          {process.env.NODE_ENV == "development" && (
+            <>
+              <Dialog
+                open={removeListingModalOpen}
+                onOpenChange={setRemoveListingModalOpen}
+              >
+                <DialogTrigger>
+                  <div className="w-max h-max px-5 py-3 ml-5 bg-red-500 text-white text-sm rounded-sm hover:bg-red-600">
+                    <BugPlay className="mr-2 h-5 w-5 inline-block" />
+                    Remove Listing
+                  </div>
+                </DialogTrigger>
+                <RemoveListingDialog
+                  setRemoveListingModalOpen={setRemoveListingModalOpen}
+                  refreshListingData={refreshListingData}
+                  listing={selectedListing}
+                />
+              </Dialog>
+              <button
+                className="w-max h-max px-5 py-3 ml-5 bg-red-500 text-white text-sm rounded-sm hover:bg-blue-600"
+                onClick={async () => {
+                  await addRandomListing();
+                }}
+              >
+                <BugPlay className="mr-2 h-4 w-4 inline-block" />
+                Add Listing
+              </button>
+            </>
+          )}
         </div>
         <DataTable
           data={tasks}
