@@ -75,7 +75,7 @@ export const DatePickerForm: React.FC<DatePickerFormProps> = (props) => {
           mode="single"
           selected={date}
           onSelect={onDaySelected}
-          initialFocus
+          // initialFocus
         />
       </PopoverContent>
     </Popover>
