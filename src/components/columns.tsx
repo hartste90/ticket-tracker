@@ -1,6 +1,6 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, RowData } from "@tanstack/react-table";
 
 import { Badge } from "@/components/ui/badge";
 // import { Checkbox } from "@/registry/new-york/ui/checkbox";
@@ -10,39 +10,29 @@ import { Task } from "@/data/schema";
 import { DataTableColumnHeader } from "@/components/data-table-column-header";
 import { date } from "zod";
 // import { DataTableRowActions } from "./data-table-row-actions";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Listing } from "@/api/listing";
+
+declare module "@tanstack/react-table" {
+  interface TableMeta<TData extends RowData> {
+    removeListing: (listingId: Listing) => void;
+  }
+}
 
 export const columns: ColumnDef<Task>[] = [
-  //   {
-  //     id: "select",
-  //     header: ({ table }) => (
-  //       <Checkbox
-  //         checked={
-  //           table.getIsAllPageRowsSelected() ||
-  //           (table.getIsSomePageRowsSelected() && "indeterminate")
-  //         }
-  //         onCheckedChange={(value: any) => table.toggleAllPageRowsSelected(!!value)}
-  //         aria-label="Select all"
-  //         className="translate-y-[2px]"
-  //       />
-  //     ),
-  //     cell: ({ row }) => (
-  //       <Checkbox
-  //         checked={row.getIsSelected()}
-  //         onCheckedChange={(value: any) => row.toggleSelected(!!value)}
-  //         aria-label="Select row"
-  //         className="translate-y-[2px]"
-  //       />
-  //     ),
-  //     enableSorting: false,
-  //     enableHiding: false,
-  //   },
   {
     accessorKey: "listingId",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Listing ID" />
     ),
     cell: ({ row }) => (
-      <div className="w-[80px]">{row.getValue("listingId")}</div>
+      <div className="w-[80px] text-primary/30">
+        {row.getValue("listingId")}
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -53,10 +43,6 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title="Event Name" />
     ),
     cell: ({ row }) => {
-      //   const label = labels.find(
-      //     (label: { value: any }) => label.value === row.original.label
-      //   );
-
       return (
         <div className="flex space-x-2">
           {/* {label && <Badge variant="outline">{label.label}</Badge>} */}
@@ -117,7 +103,7 @@ export const columns: ColumnDef<Task>[] = [
         </div>
       );
     },
-    sortingFn: (rowA, rowB, columnId) => {
+    sortingFn: (rowA, rowB) => {
       const dateA = new Date(rowA.getValue("eventDate"));
       const dateB = new Date(rowB.getValue("eventDate"));
       const diff = dateA.getTime() - dateB.getTime();
@@ -129,52 +115,58 @@ export const columns: ColumnDef<Task>[] = [
       return -1;
     },
   },
-  //   {
-  //     accessorKey: "priority",
-  //     header: ({ column }) => (
-  //       <DataTableColumnHeader column={column} title="Priority" />
-  //     ),
-  //     cell: ({ row }) => {
-  //       const priority = priorities.find(
-  //         (priority) => priority.value === row.getValue("priority")
-  //       );
-
-  //       if (!priority) {
-  //         return null;
-  //       }
-
-  //       return (
-  //         <div className="flex items-center">
-  //           {priority.icon && (
-  //             <priority.icon className="mr-2 h-4 w-4 text-muted-foreground" />
-  //           )}
-  //           <span>{priority.label}</span>
-  //         </div>
-  //       );
-  //     },
-  //     filterFn: (row, id, value) => {
-  //       return value.includes(row.getValue(id));
-  //     },
-  //   },
   {
     id: "actions",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Actions" />
     ),
-    cell: ({ row }) => {
+    cell: ({ getValue, row, column, table }) => {
+      const removeListing = () => {
+        table.options.meta?.removeListing(row.original as Listing);
+      };
+
       return (
         <div>
-          <button className=" w-max h-max mr-2 bg-emerald-500 text-white rounded-md p-2 hover:bg-emerald-600 transition-all">
-            <span className=" inline-block" />
-            Make Offer
-          </button>
-          <button className="  w-max h-max underline text-rose-400 rounded-md p-2 hover:bg-rose-100 transition-all">
-            <span className=" inline-block" />
-            Mark Sold
-          </button>
+          <Popover>
+            <PopoverTrigger>
+              <div className="w-max h-max mr-2 p-2 bg-emerald-500 text-white text-sm rounded-md hover:bg-emerald-600">
+                Make Offer
+              </div>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div className=" ">
+                <h1 className="text-lg">
+                  <b>{row.original.eventName}</b>
+                </h1>
+                <div className="text-slate-500">
+                  <h2>
+                    contact:
+                    {" " + row.original.posterName}
+                  </h2>
+                  <h2>
+                    via:
+                    {" " + row.original.posterNumber}
+                  </h2>
+                  {row.original.notes === undefined ? null : (
+                    <h2>
+                      notes:
+                      {" " + row.original.notes}
+                    </h2>
+                  )}
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+          <div className={"inline flex-row gap-x-2 whitespace-nowrap"}>
+            <button
+              className="  w-max h-max underline text-rose-400 rounded-md p-2 hover:bg-rose-100 transition-all"
+              onClick={removeListing}
+            >
+              Mark Sold
+            </button>
+          </div>
         </div>
       );
-      // <DataTableRowActions row={row} />,
     },
   },
 ];

@@ -65,6 +65,34 @@ export async function addListing(listing: Listing) {
   });
 }
 
+//export function to mark a listing as sold
+export async function markListingAsSold(listingId: string) {
+  console.log("Marking listing as sold: ", listingId);
+  return new Promise((resolve, reject) => {
+    fetch("https://k4i6ycglle.execute-api.us-west-1.amazonaws.com/markSold", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ listingId: listingId, sold: true }),
+    })
+      .then(async (response) => {
+        let res = await response.json();
+        if (response.status === 200) {
+          resolve({ success: true, message: "Success" });
+        } else if (response.status === 400) {
+          reject({ success: false, message: "Malformed request" });
+        } else if (response.status === 401) {
+          reject({ success: false, message: "Request rejected: Unauthorized" });
+        }
+      })
+      .catch((error) => {
+        console.error("Error marking listing as sold:", error);
+        reject({ success: false, message: "Unknown error: " + error });
+      });
+  });
+}
+
 function getFakeListings(numListings: number): Listing[] {
   let listings: Listing[] = [];
   for (let i = 0; i < numListings; i++) {
@@ -83,6 +111,12 @@ function toPostData(listing: Listing) {
       eventDate: listing.eventDate.toString(),
       price: listing.price.toString(),
       obo: listing.obo.toString(),
+      posterName: listing.posterName.toString(),
+      posterNumber: listing.posterNumber.toString(),
+      postDate: listing.postDate.toString(),
+      tier: listing.tier ? listing.tier.toString() : undefined,
+      city: listing.city ? listing.city.toString() : undefined,
+      notes: listing.notes ? listing.notes.toString() : undefined,
     },
   };
 }
