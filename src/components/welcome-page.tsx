@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, BugPlay, Loader2 } from "lucide-react";
@@ -14,6 +14,10 @@ export default function WelcomePage({ setStatusCallback }: Props) {
   const [status, setStatus] = useState("initializing");
   const [input, setInput] = useState("");
   const { toast } = useToast();
+
+  useEffect(() => {
+    setInput(localStorage.getItem("passphrase") || "");
+  }, []);
 
   const onSubmit = (input: string) => {
     setStatus("fetching");
@@ -51,10 +55,15 @@ export default function WelcomePage({ setStatusCallback }: Props) {
         console.error("Error submitting passphrase:", error);
         toast({
           title: "Passphrase Rejected",
-          description: error.toString(),
+          description: "Incorrect or outdated passphrase.",
           variant: "destructive",
         });
       });
+  };
+
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+    localStorage.setItem("passphrase", e.target.value);
   };
 
   return (
@@ -74,8 +83,9 @@ export default function WelcomePage({ setStatusCallback }: Props) {
           <div className="flex w-full max-w-sm items-center space-x-2 content-center justify-center">
             <Input
               type="text"
+              value={input}
               placeholder="enter passphrase"
-              onChange={(e) => setInput(e.target.value)}
+              onChange={onInputChange}
               onKeyDownCapture={(e) => {
                 if (e.key === "Enter") onSubmit(input);
               }}
