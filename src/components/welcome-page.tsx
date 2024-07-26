@@ -40,7 +40,7 @@ export default function WelcomePage({ setStatusCallback }: Props) {
         }
         if (response.status === 400) throw new Error("Malformed request");
         if (response.status === 401)
-          throw new Error("Incorrect/outdated passphrase");
+          throw new Error("Incorrect/outdated passphrase: " + input);
         return response.json();
       })
       .then((data) => {
@@ -76,7 +76,7 @@ export default function WelcomePage({ setStatusCallback }: Props) {
               type="text"
               placeholder="enter passphrase"
               onChange={(e) => setInput(e.target.value)}
-onKeyDownCapture={(e) => {
+              onKeyDownCapture={(e) => {
                 if (e.key === "Enter") onSubmit(input);
               }}
             />

@@ -113,7 +113,7 @@ function toPostData(listing: Listing) {
       obo: listing.obo.toString(),
       posterName: listing.posterName.toString(),
       posterNumber: listing.posterNumber.toString(),
-      postDate: listing.postDate.toString(),
+      postDate: listing.postDate?.toString(),
       tier: listing.tier ? listing.tier.toString() : undefined,
       eventAddress: listing.eventAddress
         ? listing.eventAddress.toString()
