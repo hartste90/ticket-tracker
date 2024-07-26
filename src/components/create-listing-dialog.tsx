@@ -45,9 +45,6 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
 
   async function onSubmitCreateListingForm(values: any, callback: () => void) {
     console.log("form values: ", values);
-    if (form.getValues().price === "") {
-      form.setValue("price", "0");
-    }
     let listing = createListingFromForm(values);
     const res = await addListing(listing)
       .then(() => {
