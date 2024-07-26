@@ -41,9 +41,28 @@ const validateTicketPrice = z.string().transform((val, ctx) => {
   return parsed.toString();
 });
 
+const validateDateInFuture = z
+  .date({ required_error: "Date of event cannot be blank." })
+  .transform((val, ctx) => {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    console.log("date: " + val);
+    if (val < yesterday) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Event date must be in the future.",
+      });
+      return z.NEVER;
+    }
+    return val;
+  });
+
 export const listingFormSchema = z.object({
-  eventName: z.string().min(1, "Event name cannot be blank."),
-  eventDate: z.date({ required_error: "Please enter a date." }),
+  eventName: z
+    .string()
+    .min(1, "Event name cannot be blank.")
+    .max(70, "Event name must be under 70 characters."),
+  eventDate: validateDateInFuture,
   // ticketCount: z.number().min(1, "Ticket count must be at least 1."),
   ticketCount: z.string().refine((val) => !Number.isNaN(parseInt(val, 10)), {
     message: "Number of tickets cannot be blank.",
@@ -51,10 +70,22 @@ export const listingFormSchema = z.object({
   allOrNothing: z.boolean(),
   obo: z.boolean(),
   price: validateTicketPrice,
-  tier: z.string().optional(),
-  eventAddress: z.string().optional(),
-  posterName: z.string().min(1, "Seller name cannot be blank."),
-  posterNumber: z.string().min(1, "Seller contact cannot be blank."),
+  tier: z
+    .string()
+    .max(50, "Tier description must be under 50 characters.")
+    .optional(),
+  eventAddress: z
+    .string()
+    .max(50, "Event address must be under 50 characters.")
+    .optional(),
+  posterName: z
+    .string()
+    .min(1, "Seller name cannot be blank.")
+    .max(50, "Seller name must be under 50 characters."),
+  posterNumber: z
+    .string()
+    .min(1, "Seller contact cannot be blank.")
+    .max(100, "Seller contact must be under 100 characters."),
   notes: z
     .string()
     .max(250, "Please keep notes under 250 characters.")

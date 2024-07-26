@@ -27,6 +27,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { addListing } from "@/api/listings";
 import { createListingFromForm } from "@/api/listing";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
 
 interface CreateListingDialogProps {
   setCreateListingModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -112,11 +121,54 @@ const CreateListingDialog: React.FC<CreateListingDialogProps> = (props) => {
                   </FormItem>
                 )}
               />
-              <DatePickerForm
+              <FormField
+                control={form.control}
+                name="eventDate"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel></FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[240px] pl-3 text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value ? (
+                              format(field.value, "PPP")
+                            ) : (
+                              <span>Date of event</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          disabled={(date) => {
+                            let yesterday = new Date();
+                            yesterday.setDate(yesterday.getDate() - 1);
+                            return date < yesterday;
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormDescription></FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* <DatePickerForm
                 onValueChanged={(date) => {
                   form.setValue("eventDate", date);
                 }}
-              />
+              /> */}
               <FormField
                 control={form.control}
                 name="ticketCount"
