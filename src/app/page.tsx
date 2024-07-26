@@ -30,7 +30,7 @@ export default function Home() {
   const [status, setStatus] = useState("initializing");
 
   return (
-    <div className="h-screen w-screen flex-col items-center justify-between bg-white">
+    <div className="h-full w-screen flex-col items-center justify-between bg-white">
       {status !== "authenticated" && (
         <WelcomePage setStatusCallback={setStatus} />
       )}
