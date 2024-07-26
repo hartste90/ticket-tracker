@@ -9,6 +9,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import CreateListingDialog from "@/components/create-listing-dialog";
 import RemoveListingDialog from "@/components/remove-listing-dialog";
 import NoMobileWarning from "./no-mobile-warning";
+import FeedbackFooter from "./feedback-footer";
 
 export default function ListingsPage() {
   const [tasks, setTasks] = useState<Listing[]>([]);
@@ -120,6 +121,7 @@ export default function ListingsPage() {
         />
         <div id="footer" className="min-h-32" />
       </div>
+      <FeedbackFooter />
     </>
   );
 }

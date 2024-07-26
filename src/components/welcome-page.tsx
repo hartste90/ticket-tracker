@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { ArrowRight, BugPlay, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import FeedbackFooter from "./feedback-footer";
 
 type Props = {
   setStatusCallback: (status: string) => void;
@@ -67,58 +68,61 @@ export default function WelcomePage({ setStatusCallback }: Props) {
   };
 
   return (
-    <div className="flex items-center justify-center p-10 w-screen h-screen">
-      <div className=" bg-onyx-500 shadow-2xl rounded-2xl w-full max-w-2xl p-10">
-        <h1 className="text-center text-xl mb-5 text-white">
-          Welcome to Ticket Tracker
-        </h1>
-        <p className=" text-center mb-10 text-white">
-          This is a private server for connecting people looking to buy and sell
-          tickets in the SF Bay Area.
-        </p>
-        <div className="w-full flex flex-col justify-center items-center">
-          <p className="mb-2 text-old_gold">
-            Please enter the secret passphrase to gain entry.
+    <>
+      <div className="flex items-center justify-center p-10 w-screen h-screen">
+        <div className=" bg-onyx-500 shadow-2xl rounded-2xl w-full max-w-2xl p-10">
+          <h1 className="text-center text-xl mb-5 text-white">
+            Welcome to Ticket Tracker
+          </h1>
+          <p className=" text-center mb-10 text-white">
+            This is a private server for connecting people looking to buy and
+            sell tickets in the SF Bay Area.
           </p>
-          <div className="flex w-full max-w-sm items-center space-x-2 content-center justify-center">
-            <Input
-              type="text"
-              value={input}
-              placeholder="enter passphrase"
-              onChange={onInputChange}
-              onKeyDownCapture={(e) => {
-                if (e.key === "Enter") onSubmit(input);
-              }}
-            />
-            <Button
-              className="bg-old_gold-500 hover:bg-old_gold-600"
-              onClick={() => onSubmit(input)}
-              type="submit"
-              disabled={status === "fetching"}
-            >
-              {status === "fetching" ? (
-                <Loader2 className="black animate-spin" size={24} />
-              ) : (
-                <ArrowRight className="black" size={24} />
-              )}
-            </Button>
-            {process.env.NODE_ENV === "development" && (
+          <div className="w-full flex flex-col justify-center items-center">
+            <p className="mb-2 text-old_gold">
+              Please enter the secret passphrase to gain entry.
+            </p>
+            <div className="flex w-full max-w-sm items-center space-x-2 content-center justify-center">
+              <Input
+                type="text"
+                value={input}
+                placeholder="enter passphrase"
+                onChange={onInputChange}
+                onKeyDownCapture={(e) => {
+                  if (e.key === "Enter") onSubmit(input);
+                }}
+              />
               <Button
                 className="bg-old_gold-500 hover:bg-old_gold-600"
-                onClick={() => onSubmit("pinkponyclub")}
+                onClick={() => onSubmit(input)}
                 type="submit"
                 disabled={status === "fetching"}
               >
                 {status === "fetching" ? (
                   <Loader2 className="black animate-spin" size={24} />
                 ) : (
-                  <BugPlay className="black" size={24} />
+                  <ArrowRight className="black" size={24} />
                 )}
               </Button>
-            )}
+              {process.env.NODE_ENV === "development" && (
+                <Button
+                  className="bg-old_gold-500 hover:bg-old_gold-600"
+                  onClick={() => onSubmit("pinkponyclub")}
+                  type="submit"
+                  disabled={status === "fetching"}
+                >
+                  {status === "fetching" ? (
+                    <Loader2 className="black animate-spin" size={24} />
+                  ) : (
+                    <BugPlay className="black" size={24} />
+                  )}
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <FeedbackFooter />
+    </>
   );
 }
