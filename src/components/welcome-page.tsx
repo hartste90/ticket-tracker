@@ -76,6 +76,9 @@ export default function WelcomePage({ setStatusCallback }: Props) {
               type="text"
               placeholder="enter passphrase"
               onChange={(e) => setInput(e.target.value)}
+onKeyDownCapture={(e) => {
+                if (e.key === "Enter") onSubmit(input);
+              }}
             />
             <Button
               className="bg-old_gold-500 hover:bg-old_gold-600"
