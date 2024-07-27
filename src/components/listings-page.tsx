@@ -16,15 +16,20 @@ export default function ListingsPage() {
   const [createListingModalOpen, setCreateListingModalOpen] = useState(false);
   const [removeListingModalOpen, setRemoveListingModalOpen] = useState(false);
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null);
+  const [status, setStatus] = useState<"initializing" | "fetching" | "loaded">(
+    "initializing"
+  );
 
   useEffect(() => {
     refreshListingData();
   }, []);
 
   async function refreshListingData() {
+    setStatus("fetching");
     const res: Listing[] = await fetchListings(false);
     console.log("listings: ", res);
     setTasks(res);
+    setStatus("loaded");
   }
 
   async function addRandomListing() {
@@ -61,8 +66,14 @@ export default function ListingsPage() {
             onClick={async () => {
               await refreshListingData();
             }}
+            disabled={status !== "loaded"}
           >
-            <RefreshCcw className="mr-2 h-4 w-4 inline-block" />
+            <RefreshCcw
+              className={
+                `mr-2 h-5 w-5 inline-block animate-spin` +
+                (status === "loaded" ? "animate-spin" : "")
+              }
+            />
             Refresh
           </button>
           <Dialog
@@ -71,7 +82,7 @@ export default function ListingsPage() {
           >
             <DialogTrigger>
               <div className="w-max h-max px-5 py-3 bg-blue-500 text-white text-sm rounded-sm hover:bg-blue-600">
-                <CircleDollarSign className="mr-2 h-5 w-5 inline-block" />
+                <CircleDollarSign className="mr-2 h-4 w-4 inline-block" />
                 Sell My Ticket(s)
               </div>
             </DialogTrigger>
