@@ -90,7 +90,7 @@ export const listingFormSchema = z.object({
     .string()
     .max(250, "Please keep notes under 250 characters.")
     .optional(),
-  postDate: z.date(),
+  // postDate: z.date(),
 });
 
 export function ProfileForm() {

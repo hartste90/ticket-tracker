@@ -84,7 +84,7 @@ export function DataTable<TData, TValue>({
       {/* <DataTableToolbar table={table} /> */}
       <div className="rounded-md border shadow-lg">
         <Table className="">
-          <TableHeader className=" bg-gradient-to-r bg-fixed from-purple-400 via-emerald-500 to-yellow-300 ">
+          <TableHeader className="bg-blue-700 md:bg-gradient-to-r bg-fixed from-purple-400 via-emerald-500 to-yellow-300 ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -126,10 +126,7 @@ export function DataTable<TData, TValue>({
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="text-center">
                   No results.
                 </TableCell>
               </TableRow>

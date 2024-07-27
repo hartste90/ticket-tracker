@@ -40,6 +40,7 @@ export default function WelcomePage({ setStatusCallback }: Props) {
             title: "Passphrase Accepted",
             description: "Loading listings...",
             variant: "success",
+            duration: 2000,
           });
           setStatusCallback("authenticated");
         }
