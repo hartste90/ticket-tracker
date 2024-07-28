@@ -10,6 +10,7 @@ import CreateListingDialog from "@/components/create-listing-dialog";
 import RemoveListingDialog from "@/components/remove-listing-dialog";
 import NoMobileWarning from "./no-mobile-warning";
 import FeedbackFooter from "./feedback-footer";
+import { MobileDataTable } from "./mobile-data-table";
 
 export default function ListingsPage() {
   const [tasks, setTasks] = useState<Listing[]>([]);
@@ -124,11 +125,20 @@ export default function ListingsPage() {
             )}
           </>
         </div>
-        <DataTable
-          data={tasks}
-          columns={columns}
-          onMarkSoldCallback={onMarkSold}
-        />
+        <div className="hidden md:flex">
+          <DataTable
+            data={tasks}
+            columns={columns}
+            onMarkSoldCallback={onMarkSold}
+          />
+        </div>
+        <div className="md:hidden">
+          <MobileDataTable
+            data={tasks}
+            columns={columns}
+            onMarkSoldCallback={onMarkSold}
+          />
+        </div>
         <div id="footer" className="min-h-32" />
       </div>
       <FeedbackFooter />
