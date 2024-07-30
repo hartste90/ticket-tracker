@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { fetchListings, waitSeconds, addListing } from "api/listings";
 import { Listing, createRandomListing } from "api/listing";
-import { columns } from "@/components/columns";
+import { columns, mobileColumns } from "@/components/columns";
 import { DataTable } from "@/components/data-table";
 import { BugPlay, CircleDollarSign, RefreshCcw } from "lucide-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -133,9 +133,9 @@ export default function ListingsPage() {
           />
         </div>
         <div className="md:hidden">
-          <MobileDataTable
+          <DataTable
             data={tasks}
-            columns={columns}
+            columns={mobileColumns}
             onMarkSoldCallback={onMarkSold}
           />
         </div>

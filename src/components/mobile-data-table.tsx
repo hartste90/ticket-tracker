@@ -81,7 +81,6 @@ export function MobileDataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      MOBILE
       {/* <DataTableToolbar table={table} /> */}
       <div className="rounded-md border shadow-lg">
         <Table className="">
