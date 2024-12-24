@@ -23,7 +23,7 @@ export async function fetchListings(useFakeData?: boolean): Promise<Listing[]> {
         .then(async (response) => {
           let res = await response.json();
           if (response.status === 200) {
-            resolve(res.Items);
+            resolve(res);
           } else if (response.status === 400) {
             reject("Malformed request");
           } else if (response.status === 401) {
