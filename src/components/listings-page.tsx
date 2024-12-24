@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { fetchListings, waitSeconds, addListing } from "api/listings";
 import { Listing, createRandomListing } from "api/listing";
-import { columns } from "@/components/columns";
+import { columns, mobileColumns } from "@/components/columns";
 import { DataTable } from "@/components/data-table";
 import { BugPlay, CircleDollarSign, RefreshCcw } from "lucide-react";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -10,6 +10,7 @@ import CreateListingDialog from "@/components/create-listing-dialog";
 import RemoveListingDialog from "@/components/remove-listing-dialog";
 import NoMobileWarning from "./no-mobile-warning";
 import FeedbackFooter from "./feedback-footer";
+import { MobileDataTable } from "./mobile-data-table";
 
 export default function ListingsPage() {
   const [tasks, setTasks] = useState<Listing[]>([]);
@@ -50,7 +51,7 @@ export default function ListingsPage() {
       {/* <NoMobileWarning /> */}
       <div className=" h-full flex-1 flex-col space-y-6 p-1 md:p-8 md:flex ">
         <div className="flex items-center justify-between space-y-2">
-          <div className="p-8 md:p-0">
+          <div className="p-1 md:p-0">
             <h2 className="text-2xl font-bold tracking-tight">
               Welcome to the Ticket Tracker!
             </h2>
@@ -124,11 +125,20 @@ export default function ListingsPage() {
             )}
           </>
         </div>
-        <DataTable
-          data={tasks}
-          columns={columns}
-          onMarkSoldCallback={onMarkSold}
-        />
+        <div className="hidden md:flex">
+          <DataTable
+            data={tasks}
+            columns={columns}
+            onMarkSoldCallback={onMarkSold}
+          />
+        </div>
+        <div className="md:hidden">
+          <DataTable
+            data={tasks}
+            columns={mobileColumns}
+            onMarkSoldCallback={onMarkSold}
+          />
+        </div>
         <div id="footer" className="min-h-32" />
       </div>
       <FeedbackFooter />
